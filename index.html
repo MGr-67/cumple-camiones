@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Te invito a mi Cumpleaños! 🚛🚒</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Generator Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'construction-yellow': '#FFC107',
+                        'fire-red': '#FF4D4D',
+                        'builder-orange': '#FF7A00',
+                        'grass-green': '#2ECC71',
+                        'sky-blue': '#3498DB',
+                        'asphalt': '#34495E'
+                    },
+                    fontFamily: {
+                        'fredoka': ['Fredoka', 'sans-serif'],
+                        'outfit': ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Continuous road background animation pattern */
+        .road-stripes {
+            background: linear-gradient(90deg, #34495E 50%, #f1c40f 50%);
+            background-size: 40px 100%;
+        }
+
+        /* Construction hazard border */
+        .hazard-border {
+            background: repeating-linear-gradient(
+                -45deg,
+                #FFC107,
+                #FFC107 15px,
+                #222 15px,
+                #222 30px
+            );
+        }
+
+        /* Custom vehicle animations */
+        @keyframes driveRight {
+            0% { transform: translateX(-120%); }
+            100% { transform: translateX(120vw); }
+        }
+
+        @keyframes driveLeft {
+            0% { transform: translateX(120vw); }
+            100% { transform: translateX(-120%); }
+        }
+
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .animate-drive-right {
+            animation: driveRight 14s linear infinite;
+        }
+
+        .animate-drive-left {
+            animation: driveLeft 18s linear infinite;
+        }
+
+        .bounce-gentle {
+            animation: bounceSlow 2.5s ease-in-out infinite;
+        }
+
+        /* Truck wheels spinning */
+        @keyframes spinWheel {
+            100% { transform: rotate(360deg); }
+        }
+
+        .wheel-spin {
+            animation: spinWheel 1s linear infinite;
+            transform-origin: center;
+        }
+
+        /* Custom Audio Button Pulse */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); }
+            50% { box-shadow: 0 0 0 14px rgba(255, 122, 0, 0); }
+        }
+
+        .pulse-audio {
+            animation: pulseGlow 2s infinite;
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-12 select-none">
+
+    <!-- Sticky Audio Control Toggle -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="audioBtn" onclick="toggleAudio()" class="pulse-audio bg-builder-orange hover:bg-orange-600 text-white font-bold p-3 sm:p-4 rounded-full shadow-2xl flex items-center gap-2 transition-all transform hover:scale-110 active:scale-95 border-2 border-white">
+            <i id="audioIcon" class="fas fa-volume-mute text-xl sm:text-2xl"></i>
+            <span id="audioText" class="text-xs sm:text-sm pr-1 hidden sm:inline">Música: OFF</span>
+        </button>
+    </div>
+
+    <!-- Header / Banner hazard -->
+    <div class="h-4 hazard-border w-full"></div>
+
+    <!-- HERO SECTION -->
+    <header class="relative bg-gradient-to-b from-sky-blue via-sky-300 to-amber-100 pt-10 pb-16 px-4 text-center overflow-hidden border-b-8 border-asphalt">
+        
+        <!-- Clouds SVG -->
+        <div class="absolute top-4 left-6 opacity-80 animate-pulse">
+            <svg class="w-16 h-10 text-white fill-current" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+        </div>
+        <div class="absolute top-12 right-10 opacity-80 animate-pulse" style="animation-delay: 1s;">
+            <svg class="w-20 h-12 text-white fill-current" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+        </div>
+
+        <div class="max-w-3xl mx-auto relative z-10">
+            <!-- Badge -->
+            <span class="inline-block bg-construction-yellow text-slate-900 font-extrabold text-sm sm:text-base px-6 py-2 rounded-full uppercase tracking-wider shadow-md mb-4 border-2 border-slate-900 bounce-gentle">
+                🚨 ¡Super Fiesta sobre Ruedas! 🚨
+            </span>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.5)] tracking-wide mb-2">
+                ¡TE INVITO A MI CUMPLEAÑOS!
+            </h1>
+            
+            <p class="text-2xl sm:text-4xl font-extrabold text-fire-red drop-shadow-[0_2px_2px_rgba(255,255,255,0.8)] mb-6">
+                ¡Cumplo <span class="bg-white text-builder-orange px-3 py-1 rounded-2xl border-4 border-builder-orange inline-block shadow-lg">4</span> Años! 🎉
+            </p>
+
+            <div class="bg-white/90 backdrop-blur-sm p-4 sm:p-6 rounded-3xl shadow-xl border-4 border-construction-yellow max-w-lg mx-auto transform hover:rotate-1 transition-transform">
+                <p class="text-slate-700 font-bold text-lg sm:text-xl">
+                    ¡Prepara tus cascos, enciende tus motores y ven a celebrar un día lleno de aventuras con camiones, bocinas y mucha diversión! 🚜🚒🚌
+                </p>
+            </div>
+        </div>
+
+        <!-- Animated vehicles strip -->
+        <div class="relative w-full h-20 mt-8 overflow-hidden">
+            <!-- Fire Truck moving right -->
+            <div class="absolute bottom-0 animate-drive-right flex items-center gap-1 cursor-pointer" onclick="playHorn('fire')">
+                <svg class="w-24 h-16" viewBox="0 0 100 60">
+                    <!-- Fire Truck body -->
+                    <rect x="5" y="20" width="70" height="30" fill="#FF4D4D" rx="5"/>
+                    <rect x="60" y="10" width="30" height="40" fill="#FF4D4D" rx="5"/>
+                    <rect x="75" y="15" width="12" height="15" fill="#E0F7FA"/>
+                    <!-- Ladder -->
+                    <rect x="15" y="12" width="40" height="6" fill="#BDC3C7"/>
+                    <line x1="20" y1="12" x2="20" y2="18" stroke="#7F8C8D" stroke-width="2"/>
+                    <line x1="30" y1="12" x2="30" y2="18" stroke="#7F8C8D" stroke-width="2"/>
+                    <line x1="40" y1="12" x2="40" y2="18" stroke="#7F8C8D" stroke-width="2"/>
+                    <line x1="50" y1="12" x2="50" y2="18" stroke="#7F8C8D" stroke-width="2"/>
+                    <!-- Siren light -->
+                    <circle cx="75" cy="6" r="4" fill="#3498DB" class="animate-ping"/>
+                    <circle cx="75" cy="6" r="4" fill="#3498DB"/>
+                    <!-- Wheels -->
+                    <circle cx="25" cy="50" r="8" fill="#333"/>
+                    <circle cx="25" cy="50" r="4" fill="#DDD" class="wheel-spin"/>
+                    <circle cx="70" cy="50" r="8" fill="#333"/>
+                    <circle cx="70" cy="50" r="4" fill="#DDD" class="wheel-spin"/>
+                </svg>
+            </div>
+
+            <!-- Bus moving left -->
+            <div class="absolute bottom-0 animate-drive-left flex items-center gap-1 cursor-pointer" onclick="playHorn('bus')">
+                <svg class="w-28 h-16" viewBox="0 0 110 60">
+                    <rect x="5" y="15" width="95" height="35" fill="#F1C40F" rx="8"/>
+                    <!-- Windows -->
+                    <rect x="15" y="22" width="15" height="12" fill="#E0F7FA" rx="2"/>
+                    <rect x="35" y="22" width="15" height="12" fill="#E0F7FA" rx="2"/>
+                    <rect x="55" y="22" width="15" height="12" fill="#E0F7FA" rx="2"/>
+                    <rect x="75" y="22" width="18" height="12" fill="#E0F7FA" rx="2"/>
+                    <!-- Stripe -->
+                    <rect x="5" y="38" width="95" height="4" fill="#333"/>
+                    <!-- Wheels -->
+                    <circle cx="25" cy="50" r="8" fill="#333"/>
+                    <circle cx="25" cy="50" r="4" fill="#DDD" class="wheel-spin"/>
+                    <circle cx="80" cy="50" r="8" fill="#333"/>
+                    <circle cx="80" cy="50" r="4" fill="#DDD" class="wheel-spin"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Road line -->
+        <div class="w-full h-4 bg-asphalt flex items-center justify-around">
+            <div class="w-12 h-1 bg-yellow-400"></div>
+            <div class="w-12 h-1 bg-yellow-400"></div>
+            <div class="w-12 h-1 bg-yellow-400"></div>
+            <div class="w-12 h-1 bg-yellow-400"></div>
+            <div class="w-12 h-1 bg-yellow-400"></div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl mx-auto px-4 -mt-6 relative z-20 space-y-8">
+
+        <!-- COUNTDOWN TIMER -->
+        <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-builder-orange text-center">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mb-2 flex items-center justify-center gap-2">
+                <i class="fas fa-stopwatch text-builder-orange"></i> Conteo Regresivo para la Misión
+            </h2>
+            <p class="text-slate-500 text-sm mb-6">¡Asegúrate de llegar a tiempo a la zona de construcción!</p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl mx-auto">
+                <div class="bg-amber-100 border-2 border-construction-yellow p-4 rounded-2xl shadow-sm">
+                    <span id="days" class="block text-3xl sm:text-5xl font-black text-slate-800">00</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 uppercase">Días</span>
+                </div>
+                <div class="bg-amber-100 border-2 border-construction-yellow p-4 rounded-2xl shadow-sm">
+                    <span id="hours" class="block text-3xl sm:text-5xl font-black text-slate-800">00</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 uppercase">Horas</span>
+                </div>
+                <div class="bg-amber-100 border-2 border-construction-yellow p-4 rounded-2xl shadow-sm">
+                    <span id="minutes" class="block text-3xl sm:text-5xl font-black text-slate-800">00</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 uppercase">Minutos</span>
+                </div>
+                <div class="bg-amber-100 border-2 border-construction-yellow p-4 rounded-2xl shadow-sm">
+                    <span id="seconds" class="block text-3xl sm:text-5xl font-black text-slate-800">00</span>
+                    <span class="text-xs sm:text-sm font-bold text-slate-600 uppercase">Segundos</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLEET INTERACTIVE CARDS (VEHICLE THEME SHOWCASE) -->
+        <section class="text-center">
+            <h3 class="text-xl sm:text-2xl font-black text-slate-700 mb-4 uppercase tracking-wider">
+                🚜 ¡Nuestra Flota de Trabajo! (Toca para escuchar bocinas) 🚚
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <!-- Excavator -->
+                <button onclick="playHorn('excavator')" class="bg-white border-2 border-amber-400 p-3 rounded-2xl shadow-md hover:scale-105 active:scale-95 transition-all text-center group">
+                    <div class="text-3xl sm:text-4xl mb-1 group-hover:bounce-gentle">🚜</div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 block">Excavadora</span>
+                </button>
+                <!-- Firetruck -->
+                <button onclick="playHorn('fire')" class="bg-white border-2 border-red-400 p-3 rounded-2xl shadow-md hover:scale-105 active:scale-95 transition-all text-center group">
+                    <div class="text-3xl sm:text-4xl mb-1 group-hover:bounce-gentle">🚒</div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 block">Bomberos</span>
+                </button>
+                <!-- Garbage Truck -->
+                <button onclick="playHorn('garbage')" class="bg-white border-2 border-green-400 p-3 rounded-2xl shadow-md hover:scale-105 active:scale-95 transition-all text-center group">
+                    <div class="text-3xl sm:text-4xl mb-1 group-hover:bounce-gentle">🚛</div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 block">Basura</span>
+                </button>
+                <!-- Ambulance -->
+                <button onclick="playHorn('ambulance')" class="bg-white border-2 border-blue-400 p-3 rounded-2xl shadow-md hover:scale-105 active:scale-95 transition-all text-center group">
+                    <div class="text-3xl sm:text-4xl mb-1 group-hover:bounce-gentle">🚑</div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 block">Ambulancia</span>
+                </button>
+                <!-- Bus -->
+                <button onclick="playHorn('bus')" class="bg-white border-2 border-yellow-400 p-3 rounded-2xl shadow-md hover:scale-105 active:scale-95 transition-all text-center group col-span-2 sm:col-span-1">
+                    <div class="text-3xl sm:text-4xl mb-1 group-hover:bounce-gentle">🚌</div>
+                    <span class="text-xs sm:text-sm font-bold text-slate-700 block">Autobús</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- EVENT DETAILS & MAP SECTION -->
+        <div class="grid md:grid-cols-2 gap-6">
+            
+            <!-- Details Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-sky-blue flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center text-sky-blue text-2xl">
+                            <i class="fas fa-calendar-star"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-black text-slate-800">¿Cuándo y Dónde?</h3>
+                            <p class="text-xs text-slate-500">Datos de la estación de fiesta</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 text-slate-700 font-semibold">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-calendar-day text-builder-orange text-xl mt-1"></i>
+                            <div>
+                                <span class="block text-xs text-slate-400 uppercase font-extrabold">Fecha</span>
+                                <span class="text-lg">Sábado, 14 de Noviembre 2026</span>
+                            </div>
+                        </li>
+
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-clock text-builder-orange text-xl mt-1"></i>
+                            <div>
+                                <span class="block text-xs text-slate-400 uppercase font-extrabold">Hora</span>
+                                <span class="text-lg">3:30 PM - 7:30 PM</span>
+                            </div>
+                        </li>
+
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-fire-red text-xl mt-1"></i>
+                            <div>
+                                <span class="block text-xs text-slate-400 uppercase font-extrabold">Salón de Fiestas</span>
+                                <span class="text-lg font-bold text-slate-900">Salón "La Estación Divertida"</span>
+                                <p class="text-xs text-slate-500 font-normal">Av. de los Camiones #123, Ciudad Infantil</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Google Maps Button -->
+                <div class="mt-8">
+                    <a href="https://maps.google.com/?q=Salón+de+Fiestas+Infantiles" target="_blank" rel="noopener noreferrer" class="w-full bg-grass-green hover:bg-green-600 text-white font-extrabold py-3 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 active:translate-y-0 text-center">
+                        <i class="fas fa-location-arrow"></i> Abrir en Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dress Code & Rules Card -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border-4 border-construction-yellow flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-builder-orange text-2xl">
+                            <i class="fas fa-vest"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-black text-slate-800">Código de Vestimenta</h3>
+                            <p class="text-xs text-slate-500">¿Cómo venir preparado?</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border-2 border-dashed border-amber-300 p-4 rounded-2xl mb-6">
+                        <p class="text-center font-bold text-amber-900 text-lg">
+                            👕 Outfit Cómodo / Temático
+                        </p>
+                        <p class="text-xs sm:text-sm text-center text-amber-800 mt-1">
+                            ¡Ropa cómoda lista para jugar, correr y ensuciarse en la zona de construcción! Pueden usar colores amarillo, rojo, azul o traer camisetas de sus camiones favoritos.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3 text-sm font-semibold text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-grass-green text-lg"></i>
+                            <span>Habrá zona de inflables y juegos.</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-grass-green text-lg"></i>
+                            <span>Se entregan casquitos de constructor al entrar.</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-grass-green text-lg"></i>
+                            <span>¡Traer muchas ganas de divertirse!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-3 bg-sky-50 rounded-2xl border border-sky-200 text-center">
+                    <span class="text-xs text-sky-800 font-bold block">💡 Sugerencia:</span>
+                    <span class="text-xs text-sky-700">¡Puedes traer calcetines antiderrapantes para las áreas de juego!</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PHOTO REPOSITORY & QR SECTION -->
+        <section class="bg-gradient-to-r from-asphalt to-slate-800 text-white rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <!-- Background Icon -->
+            <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">
+                <i class="fas fa-camera"></i>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 items-center relative z-10">
+                <div class="md:col-span-2">
+                    <span class="inline-block bg-fire-red text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase mb-2">
+                        📸 Álbum de Recuerdos
+                    </span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-construction-yellow mb-2">
+                        ¡Comparte tus Fotos del Evento!
+                    </h3>
+                    <p class="text-slate-300 text-sm sm:text-base mb-4">
+                        Escanea el código QR durante la fiesta o haz clic en el botón para subir todas las fotos y videos que tomes. ¡Ayúdanos a guardar todos los recuerdos!
+                    </p>
+                    <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-construction-yellow hover:bg-yellow-400 text-slate-900 font-extrabold px-6 py-3 rounded-2xl transition-all shadow-md">
+                        <i class="fas fa-cloud-upload-alt text-lg"></i> Subir Fotos al Álbum Digital
+                    </a>
+                </div>
+
+                <!-- QR Container -->
+                <div class="flex flex-col items-center justify-center bg-white p-4 rounded-2xl shadow-lg text-slate-900">
+                    <div id="qrcode" class="mb-2"></div>
+                    <span class="text-xs font-bold text-slate-600 text-center">Escanea con tu celular</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- RSVP / CONFIRMATION FORM -->
+        <section class="bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-fire-red">
+            <div class="text-center max-w-xl mx-auto mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center text-fire-red text-3xl mx-auto mb-3">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+                <h3 class="text-3xl font-black text-slate-800">Confirmación de Asistencia</h3>
+                <p class="text-slate-500 text-sm">Por favor confirma tu asistencia para preparar tu pase de entrada a la estación.</p>
+            </div>
+
+            <form id="rsvpForm" onsubmit="sendRSVP(event)" class="max-w-md mx-auto space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre Completo de la Familia / Invitado</label>
+                    <input type="text" id="guestName" required placeholder="Ej. Familia Pérez / Juanito" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-fire-red focus:outline-none transition-colors font-medium">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">¿Asistirás a la fiesta?</label>
+                    <select id="attendance" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-fire-red focus:outline-none transition-colors font-medium">
+                        <option value="¡Sí, ahí estaremos listos para festejar! 🚛🎉">¡Sí! ¡Listos para la aventura!</option>
+                        <option value="Lamentablemente no podremos asistir 😢">Lamentablemente no podremos asistir</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Número de Asistentes (Adultos y Niños)</label>
+                    <input type="number" id="guestCount" min="1" max="10" value="2" required class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-fire-red focus:outline-none transition-colors font-medium">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mensaje para el Cumpleañero (Opcional)</label>
+                    <textarea id="guestMessage" rows="2" placeholder="¡Feliz Cumpleaños! ¡Esperamos ver los camiones!" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-fire-red focus:outline-none transition-colors font-medium"></textarea>
+                </div>
+
+                <!-- WHATSAPP NUMBER SETTING (MODIFIABLE BY USER) -->
+                <button type="submit" class="w-full bg-grass-green hover:bg-green-600 text-white font-extrabold py-4 px-6 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-lg transition-all transform hover:scale-[1.02] active:scale-95">
+                    <i class="fab fa-whatsapp text-2xl"></i> Confirmar Asistencia por WhatsApp
+                </button>
+            </form>
+
+            <div id="rsvpSuccess" class="hidden text-center bg-green-100 border-2 border-green-400 text-green-800 p-4 rounded-2xl mt-4 font-bold">
+                ¡Gracias por confirmar! Te estamos redireccionando a WhatsApp...
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-16 text-center text-slate-500 text-xs px-4">
+        <p class="mb-2">🚜 ¡Te esperamos para celebrar juntos este gran día! 🚒</p>
+        <div class="h-2 hazard-border w-full max-w-lg mx-auto rounded-full mb-4"></div>
+        <p>© Invitación Digital Interactiva - Fiesta Infantil de Vehículos</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // CONFIGURACIÓN DE LA FIESTA
+        // Cambia la fecha de la fiesta aquí (Año, Mes - 1, Día, Hora, Minutos)
+        // Nota: Los meses en JS van de 0 (Enero) a 11 (Diciembre).
+        const EVENT_DATE = new Date(2026, 10, 14, 15, 30, 0); // 14 de Noviembre de 2026, 3:30 PM
+
+        // Número de teléfono para recibir las confirmaciones de WhatsApp (con código de país sin +)
+        const WHATSAPP_PHONE = "5215512345678"; // Reemplazar con el número real del organizador
+
+        // URL del Drive o Repositorio de Fotos
+        const PHOTO_DRIVE_URL = "https://drive.google.com";
+
+        // ==========================================
+        // 1. COUNTDOWN TIMER LOGIC
+        // ==========================================
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = EVENT_DATE.getTime() - now;
+
+            if (distance < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // ==========================================
+        // 2. GENERATE QR CODE
+        // ==========================================
+        window.addEventListener('load', () => {
+            const qrContainer = document.getElementById("qrcode");
+            if (qrContainer && typeof QRCode !== 'undefined') {
+                new QRCode(qrContainer, {
+                    text: PHOTO_DRIVE_URL,
+                    width: 120,
+                    height: 120,
+                    colorDark: "#34495E",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
+        });
+
+        // ==========================================
+        // 3. RSVP VIA WHATSAPP
+        // ==========================================
+        function sendRSVP(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("guestName").value;
+            const attendance = document.getElementById("attendance").value;
+            const count = document.getElementById("guestCount").value;
+            const message = document.getElementById("guestMessage").value;
+
+            let text = `¡Hola! Confirmo mi asistencia para el cumpleaños:\n\n`;
+            text += `👤 *Nombre:* ${name}\n`;
+            text += `📢 *Asistencia:* ${attendance}\n`;
+            text += `👥 *Total de Asistentes:* ${count}\n`;
+            if (message.trim() !== "") {
+                text += `💬 *Mensaje:* ${message}\n`;
+            }
+
+            const encodedText = encodeURIComponent(text);
+            const whatsappURL = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedText}`;
+
+            document.getElementById("rsvpSuccess").classList.remove("hidden");
+
+            setTimeout(() => {
+                window.open(whatsappURL, "_blank");
+            }, 1000);
+        }
+
+        // ==========================================
+        // 4. WEB AUDIO SYNTHESIZER (MUSIC & HORNS)
+        // ==========================================
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let bgMusicInterval = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function toggleAudio() {
+            initAudio();
+            const btn = document.getElementById("audioBtn");
+            const icon = document.getElementById("audioIcon");
+            const text = document.getElementById("audioText");
+
+            if (!isAudioPlaying) {
+                isAudioPlaying = true;
+                icon.className = "fas fa-volume-up text-xl sm:text-2xl";
+                text.innerText = "Música: ON";
+                btn.classList.add("bg-green-500");
+                btn.classList.remove("bg-builder-orange");
+                startBgMelody();
+            } else {
+                isAudioPlaying = false;
+                icon.className = "fas fa-volume-mute text-xl sm:text-2xl";
+                text.innerText = "Música: OFF";
+                btn.classList.remove("bg-green-500");
+                btn.classList.add("bg-builder-orange");
+                stopBgMelody();
+            }
+        }
+
+        // Simple upbeat synth melody for background
+        const melodyNotes = [261.63, 329.63, 392.00, 523.25, 392.00, 329.63]; // C4, E4, G4, C5, G4, E4
+        let noteIdx = 0;
+
+        function playNote(freq, duration) {
+            if (!audioCtx || !isAudioPlaying) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function startBgMelody() {
+            if (bgMusicInterval) clearInterval(bgMusicInterval);
+            bgMusicInterval = setInterval(() => {
+                if (isAudioPlaying) {
+                    playNote(melodyNotes[noteIdx], 0.3);
+                    noteIdx = (noteIdx + 1) % melodyNotes.length;
+                }
+            }, 400);
+        }
+
+        function stopBgMelody() {
+            if (bgMusicInterval) {
+                clearInterval(bgMusicInterval);
+                bgMusicInterval = null;
+            }
+        }
+
+        // Play custom vehicle horns on click
+        function playHorn(type) {
+            initAudio();
+            if (!audioCtx) return;
+
+            const now = audioCtx.currentTime;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'fire') {
+                // Siren sound (frequency sweep)
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.linearRampToValueAtTime(800, now + 0.3);
+                osc.frequency.linearRampToValueAtTime(400, now + 0.6);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === 'bus') {
+                // Double horn beep
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(220, now);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            } else if (type === 'ambulance') {
+                // High-low siren
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.setValueAtTime(900, now + 0.2);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else {
+                // Heavy Truck Horn (excavator/garbage)
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+        }
+    </script>
+</body>
+</html>
